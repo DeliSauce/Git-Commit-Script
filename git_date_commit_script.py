@@ -20,7 +20,7 @@ def git_add_and_commit(message, timestamp):
 
         subprocess.run(["git", "add", "."], check=True)
         subprocess.run(["git", "commit", "-m", message, "--date", timestamp], check=True, env=env)
-        print("Commit successful!")
+        print("++++ Commit successful!")
     except subprocess.CalledProcessError as e:
         print(f"Error during commit: {e}")
 
@@ -31,17 +31,24 @@ def git_push():
         print(f"Error during push: {e}")
 
 def is_weekday(datetime_obj):
-    num = datetime_obj.weekday();
+    num = datetime_obj.weekday()
     return num < 5 
 
 if __name__ == "__main__":
     yesterday_date = (datetime.now() - timedelta(days=1)).strftime('%Y.%m.%d')
-    start_date = input("Enter start date: (YYYY.MM.DD, default=yesterday)") or yesterday_date
-    end_date = input("Enter end date: (YYYY.MM.DD, default=yesterday)") or yesterday_date
+    start_date = input("Enter start date (YYYY.MM.DD, default=yesterday): ") or yesterday_date
+    end_date = input("Enter end date (YYYY.MM.DD, default=yesterday): ") or yesterday_date
     weekday_min = input("Enter min commit for a weekday (default=3): ") or 3
     weekday_max = input("Enter max commit for a weekday (default=7): ") or 7
     weekend_min = input("Enter min commit for a weekend (default=0): ") or 0
     weekend_max = input("Enter max commit for a weekend (default=1): ") or 1
+
+    # Move to different directory
+    print(os.path.abspath(os.curdir))
+    os.chdir("..")
+    print(os.path.abspath(os.curdir))
+    os.chdir(os.path.abspath(os.curdir) + "/Dummy")
+    print(os.path.abspath(os.curdir))
 
     start_date = datetime.strptime(start_date, "%Y.%m.%d")
     end_date = datetime.strptime(end_date, "%Y.%m.%d")
